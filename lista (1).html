@@ -1,0 +1,18 @@
+package com.guthinh0.projetoa3.service;
+
+import com.guthinh0.projetoa3.model.Perfil;
+import com.guthinh0.projetoa3.model.Usuario;
+import com.guthinh0.projetoa3.repository.UsuarioRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class UsuarioService {
+    private final UsuarioRepository repository;
+    public UsuarioService(UsuarioRepository repository){this.repository=repository;}
+    public List<Usuario> listarTodos(){return repository.findAll();}
+    public List<Usuario> listarGerentes(){return repository.findAll().stream().filter(u -> u.getPerfil()==Perfil.GERENTE || u.getPerfil()==Perfil.ADMINISTRADOR).toList();}
+    public Usuario buscarPorId(Long id){return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));}
+    public Usuario salvar(Usuario usuario){return repository.save(usuario);}
+    public void excluir(Long id){repository.deleteById(id);}
+}

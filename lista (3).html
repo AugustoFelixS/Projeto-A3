@@ -1,0 +1,16 @@
+package com.guthinh0.projetoa3.service;
+
+import com.guthinh0.projetoa3.model.Equipe;
+import com.guthinh0.projetoa3.repository.EquipeRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class EquipeService {
+    private final EquipeRepository repository;
+    public EquipeService(EquipeRepository repository){this.repository=repository;}
+    public List<Equipe> listarTodas(){return repository.findAll();}
+    public Equipe buscarPorId(Long id){return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Equipe não encontrada"));}
+    public Equipe salvar(Equipe equipe){return repository.save(equipe);}
+    public void excluir(Long id){repository.deleteById(id);}
+}
